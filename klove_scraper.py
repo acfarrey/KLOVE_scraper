@@ -87,12 +87,17 @@ def scrape_klove():
         
         song = ntSong(song_id, artist, song_name, last_played, minutes_ago, approx_playtime)
         
-        if song_ndx == 0:
+        # ACF - 2021-11-11 - Changed this IF block to skip the "Last Played" song.  This will get more accurate approx_playtime timestamps.
+        if minutes_ago == 0:
+            #Skip the Now Playing song to get more accurate timestamps
+            song_ndx = 0
+            print("Skipping currently playing: ", song_id)
+        elif song_ndx == 0:
             songlist = [song]
+            song_ndx = song_ndx + 1
         else:
             songlist.append(song)
-        song_ndx = song_ndx + 1
-        
+            song_ndx = song_ndx + 1
     return songlist
 
 
